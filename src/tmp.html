@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="car_parametrs">
+        <div class="create_car">
+            <form class="crate" id="create">
+                <input class="nameCrt" id="nameCrt" type="text">
+                <input class="colorCrt" id="colorCrt" type="color" value="#ffffff">
+                <button class="createBtn" id="createBtn" type="submit">Create</button>
+            </form>
+        </div>
+        <div class="update_car">
+            <form class="update" id="update">
+                <input class="nameUpd" id="nameUpd" type="text">
+                <input class="colorUpd" id="colorUpd" type="color" value="#ffffff">
+                <button class="updateBtn" id="updateBtn" type="submit">Update</button>
+            </form>
+        </div>
+        <div class="btnPlase">
+            <button class="button btnRace" id="race">Race</button>
+            <button class="button btnReset" id="reset">Reset</button>
+            <button class="button btnGener" id="generate">Generate cars</button>    
+        </div>
+        <p class="garage_text">Garage ()</p>
+        <button ></button>
+
+        <button href ="#/garage" class="garageButton" id="garageButton">TO GARAGE</button>
+        <a href="#/garage" class="garageButton" id="garageButton">TO GARAGE</a>
+    </div>
+    <div class="carsField">
+        <div class="manageBtn">
+            <button class="button selectBtn" id="select-car-${id}">Select</button>
+            <button class="button removeBtn" id="remove-car-${id}">Remove</button>
+            <p class="car-name">${name}</p>
+        </div>
+        <div class="road">
+            <div class="controlBtns">
+                <button class="btnStart" id="engine-car-start-${id}">A</button>
+                <button class="btnStop" id="engine-car-stop-${id}">B</button>
+            </div>
+            <div class="car" id="car-${id}">
+                ${Car('white')}
+            </div>
+            <span class="flag" id="car-${id}">&#127937</span>
+        </div>
+    </div>
+
+    
+
+</body>
+</html>
+
+
+
