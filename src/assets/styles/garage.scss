@@ -1,0 +1,47 @@
+@import "_varibales";
+.garage {
+width: 100%;
+margin-left: 5px;
+margin-top: 20px;
+}
+h1, h2, p {
+    color: $textColor;
+}
+a {
+    text-decoration: none;
+    text-align: center;
+}
+.manageBtn {
+    display: flex;
+}
+
+.road {
+    display: flex;
+    align-items: center;
+    border-bottom: 3px dotted white;
+    position: relative;
+    height: 40px;
+}
+
+.controlBtns {
+    margin-right: 10px;
+}
+
+.flag {
+    font-size: x-large;
+    position: fixed;
+    right: 10%;
+}
+.car {
+    width: 45px;
+    height: 35px;
+    position: absolute;
+    left: 60px;
+}
+.carBtn {
+    width: 20px;
+    height: 20px;
+}
+.selectBtn {
+    margin-right: 5px;
+}
