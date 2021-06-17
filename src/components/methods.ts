@@ -4,14 +4,17 @@ export const GarageBase = `${Serv}/garage`;
 export const EngineBase = `${Serv}/engine`;
 export const WinnersBase = `${Serv}/winners`;
 
-// export const GetCars = async (page: number, limit: number) => {
-//   const response = await fetch(`${GarageBase}?_page=${page}&_limit=${limit}`);
+export const GetCarsT = async (page: number, limit: number) => {
+  const response = await fetch(`${GarageBase}?_page=${page}&_limit=${limit}`);
 
-//   return {
-//     items: await response.json(),
-//     count: response.headers.get('X-Total-Count'),
-//   };
-// }
+  return {
+    items: await response.json(),
+    count: response.headers.get('X-Total-Count'),
+  };
+}
+
+
+
 
 
 export const GetCar = async (id:number) => (await fetch(`${GarageBase}/${id}`)).json();

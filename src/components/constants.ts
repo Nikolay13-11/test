@@ -1,6 +1,5 @@
 // import { GetCars, tmy } from "./methods";
-
-import { GarageBase } from "./methods";
+import { GarageBase, GetCarsT } from "./methods";
 
 let tmy:any = null;
 export const GetCars = () => {
@@ -8,6 +7,7 @@ export const GetCars = () => {
   .then(data => data.json())
   .then(result => {tmy = result});
 }
+
 
 
 export const buttons = ` 
@@ -116,16 +116,23 @@ export const CreateGarage = () => `
 	<li>${CreateCarBlock(tmy[item].id, tmy[item].name, tmy[item].color)}</li>`).join('')
 }
 </ul>
+<div class="buttonsDown">
+	<button class="btnPage prevBtn" id="prevBtn">Prev</button>
+	<button class="btnPage nextBtn" id="nextBtn">Next</button>
+</div>
 `;
 
 
  
 //	CarField.insertAdjacentHTML('afterbegin', CreateCar(3))
+
 // Winners 
 
 export const countWinners = 0;
-export const winners = ` 
-<p class="winners_text">Winners (${countWinners})</p>
+export const winners = `
+<h1 class="winners_text">Winners (${countWinners})</h1>
+<h2>Page #${1}</h2>
+<div class="winnerslist">
 `;
 
 

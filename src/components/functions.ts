@@ -1,10 +1,7 @@
 import { AnimationCar, CreateGarage, DistanceBetwCarAndFlag, GetCars } from "./constants";
-import { CreateCar, DeleteCar, Drive, GetCar, StartEngine, UpdateCar } from "./methods";
+import { CreateCar, DeleteCar, Drive, GetCar, StartEngine, StopEngine, UpdateCar } from "./methods";
 
 let SelectCar:any = null;
-
-
-
 
 
 // export const CarCreate = () => {
@@ -46,7 +43,12 @@ const StartDriving = async (id:number) => {
 
 const StopDriving = async (id:number) => {
     const StopBtn = (document.getElementById('btnStop') as HTMLButtonElement);
-    StopBtn.disabled = true;
+    // StopBtn.disabled = true;
+
+    await StopEngine(id);
+
+    const car = document.getElementById(`car-${id}`);
+    (car as HTMLElement).style.transform = `translateX(0)`;
 }
 
 export const DisableUpdate = () => {
@@ -90,10 +92,17 @@ export const listen = () => {
             StopDriving(id);
         }
         if ((event.target as HTMLElement).classList.contains('btnReset')) {
-            // const id = Number.parseInt((event.target as HTMLElement).id.split('engine-car-stop-')[1]);
-            // StopDriving(id);
+            document.querySelectorAll('.car').forEach(item => {
+                const id = Number.parseInt((item as HTMLElement).id.split('car-')[1], 10);
+                StopDriving(id);
+            })
                
-            
+        }
+        if ((event.target as HTMLElement).classList.contains('btnRace')) {
+            document.querySelectorAll('.car').forEach(item => {
+                const id = Number.parseInt((item as HTMLElement).id.split('car-')[1], 10);
+                StartDriving(id);
+            })
         }
     })
     document.getElementById('create')?.addEventListener('submit', async (event: any) => {
