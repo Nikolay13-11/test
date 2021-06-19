@@ -4,7 +4,6 @@ import "../assets/styles/mainStyle.scss"
 import { Garage } from "../pages/garage";
 import { Winners } from "../pages/winners";
 import { DisableUpdate } from "../components/functions";
-import { GetCars } from "../components/constants";
 
 export class App implements Component {
 
@@ -47,7 +46,7 @@ export class App implements Component {
     }
 
     render(): HTMLElement {
-        GetCars();
+
         this.rootElement?.appendChild(this.aplication);
         this.aplication.appendChild(this.buttons.element);
         this.getHash();
