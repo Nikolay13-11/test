@@ -1,20 +1,9 @@
-import { AnimationCar, CreateGarage, DistanceBetwCarAndFlag, GetCars } from "./constants";
-import { CreateCar, DeleteCar, Drive, GetCar, StartEngine, StopEngine, UpdateCar } from "./methods";
+import { AnimationCar, CarsWins, CreateGarage, DistanceBetwCarAndFlag, getRandomCars, page, updateGarage } from "./constants";
+import { CreateCar, DeleteCar, Drive, GetCar, GetWinners, StartEngine, StopEngine, UpdateCar } from "./methods";
 
 let SelectCar:any = null;
 
 
-// export const CarCreate = () => {
-//     const CreateClick = document.getElementById('create');
-//     const Color = document.getElementById("colorCrt");
-//     const Name = document.getElementById("nameCrt");
-//     CreateClick?.addEventListener('click', (event: Event) => {
-//         if (event.target instanceof Element) {
-//             console.log((Color as HTMLInputElement).value)
-//             console.log((Name as HTMLInputElement).value)
-//           }
-//     })
-// }
 
 const StartDriving = async (id:number) => {
 
@@ -57,11 +46,18 @@ export const DisableUpdate = () => {
     (document.getElementById('updateBtn') as HTMLInputElement).disabled = true;
 }
 
-export const updateGarage = async () => {
 
+
+
+let wins:any;
+let winsCount:any;
+export const updateWinners = async () => {
+    const { items, count} = await GetWinners(1);
+    wins = items;
+    winsCount = count;
 }
 
-//  const { items: cars, count: carsCount} = await GetCars(1,1);
+
 
 
 export const listen = () => {
@@ -77,7 +73,7 @@ export const listen = () => {
         if ((event.target as HTMLElement).classList.contains('removeBtn')) {
             const id = Number.parseInt((event.target as HTMLElement).id.split('remove-car-')[1], 10);
             await DeleteCar(id);
-            GetCars();
+            updateGarage();
             setTimeout(() => {
                 (document.getElementById('garageWrapper') as HTMLElement).innerHTML = CreateGarage()
             }, 50); 
@@ -104,6 +100,41 @@ export const listen = () => {
                 StartDriving(id);
             })
         }
+        if ((event.target as HTMLElement).classList.contains('btnGener')) {
+            event.preventDefault();
+            const a = getRandomCars();
+            a.map((car) =>( 
+                CreateCar({
+                name: car.name, 
+                color:car.color
+            })
+            ))
+            updateGarage();
+            setTimeout(() => {
+                (document.getElementById('garageWrapper') as HTMLElement).innerHTML = CreateGarage()
+            }, 500); 
+        }
+
+        if ((event.target as HTMLElement).classList.contains('prevBtn')) {
+            console.log(page.id)
+            if (page.id > 1) {
+                page.id--
+                updateGarage();
+                setTimeout(() => {
+                    (document.getElementById('garageWrapper') as HTMLElement).innerHTML = CreateGarage()
+                }, 500); 
+            }
+        }
+        if ((event.target as HTMLElement).classList.contains('nextBtn')) {
+            if (page.id < CarsWins.carsCount/7) {
+                console.log(page.id)
+                page.id++
+                updateGarage();
+                setTimeout(() => {
+                    (document.getElementById('garageWrapper') as HTMLElement).innerHTML = CreateGarage()
+                }, 500); 
+            }
+        }
     })
     document.getElementById('create')?.addEventListener('submit', async (event: any) => {
         event.preventDefault();
@@ -113,10 +144,10 @@ export const listen = () => {
                 color:(document.getElementById('colorCrt') as HTMLInputElement).value
             });
             (document.getElementById('nameCrt') as HTMLInputElement).value = '';
-            GetCars();
+            updateGarage();
             setTimeout(() => {
                 (document.getElementById('garageWrapper') as HTMLElement).innerHTML = CreateGarage()
-            }, 50); 
+            }, 500); 
         }
     })
     document.getElementById('update')?.addEventListener('submit', async (event: any) => {
@@ -126,7 +157,7 @@ export const listen = () => {
             name:(document.getElementById('nameUpd') as HTMLInputElement).value, 
             color:(document.getElementById('colorUpd') as HTMLInputElement).value
         });
-        GetCars();
+        updateGarage();
         setTimeout(() => {
             (document.getElementById('garageWrapper') as HTMLElement).innerHTML = CreateGarage()
         }, 50); 
@@ -137,5 +168,6 @@ export const listen = () => {
         (document.getElementById('updateBtn') as HTMLInputElement).disabled = true;
     })
 }
+
 
 

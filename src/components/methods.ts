@@ -4,15 +4,17 @@ export const GarageBase = `${Serv}/garage`;
 export const EngineBase = `${Serv}/engine`;
 export const WinnersBase = `${Serv}/winners`;
 
-export const GetCarsT = async (page: number, limit: number) => {
+export const GetCars = async (page: number, limit = 7) => {
   const response = await fetch(`${GarageBase}?_page=${page}&_limit=${limit}`);
-
+  
   return {
     items: await response.json(),
     count: response.headers.get('X-Total-Count'),
   };
 }
 
+
+// export const { items:cars, count: carCount} = await GetCarsT(1, 7)
 
 
 
@@ -38,6 +40,7 @@ export const UpdateCar = async (id:number, body: { name: string, color: string }
 })).json();
 
 
+
 export const StartEngine = async (id:number) => (await fetch(`${EngineBase}?id=${id}&status=started`)).json();
 
 export const StopEngine = async (id:number) => (await fetch(`${EngineBase}?id=${id}&status=stopped`)).json();
@@ -47,7 +50,20 @@ export const Drive = async (id:number) => {
   return resp.status !== 200 ? { success: false} : {...(await resp.json())}
 }
 
-export const GetWinners = async (id:number) => (await fetch(`${WinnersBase}/${id}`)).json();
+export const GetWinners = async (page: number, limit = 10) => {
+  const response = await fetch(`${WinnersBase}?_page=${page}&_limit=${limit}`);
+
+  
+  return {
+    items: await response.json(),
+    count: response.headers.get('X-Total-Count'),
+  };
+};
+
+
+
+
+export const GetWinner = async (id:number) => (await fetch(`${WinnersBase}/${id}`)).json();
 
 export const GetWinnersStatus = async (id:number) => (await fetch(`${WinnersBase}/${id}`)).status;
 

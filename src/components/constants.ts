@@ -1,13 +1,25 @@
-// import { GetCars, tmy } from "./methods";
-import { GarageBase, GetCarsT } from "./methods";
+import { GetCars } from "./methods";
 
-let tmy:any = null;
-export const GetCars = () => {
-  fetch(`${GarageBase}`)
-  .then(data => data.json())
-  .then(result => {tmy = result});
+
+export const page = {
+    id: 1
+};
+
+let cars:any;
+let carsCount:any;
+
+
+export const CarsWins = {
+    cars,
+    carsCount
 }
 
+
+export const updateGarage = async () => {
+    const { items, count} = await GetCars(page.id);
+    CarsWins.cars = items;
+    CarsWins.carsCount = count;
+}
 
 
 export const buttons = ` 
@@ -108,12 +120,14 @@ export const CreateCarBlock = (id: number, name: string, color: string) => `
 </div>
 `;
 
+
+
 export const CreateGarage = () => `
-<h1>Garage (${tmy.length})</h1>
-<h2>Page (${1})</h2>
+<h1>Garage (${parseInt(CarsWins.carsCount, 10)})</h1>
+<h2>Page (${page.id})</h2>
 <ul class="garage">
-	${Object.keys(tmy).map(item => `
-	<li>${CreateCarBlock(tmy[item].id, tmy[item].name, tmy[item].color)}</li>`).join('')
+	${Object.keys(CarsWins.cars).map(item => `
+	<li>${CreateCarBlock(CarsWins.cars[item].id, CarsWins.cars[item].name, CarsWins.cars[item].color)}</li>`).join('')
 }
 </ul>
 <div class="buttonsDown">
@@ -121,18 +135,31 @@ export const CreateGarage = () => `
 	<button class="btnPage nextBtn" id="nextBtn">Next</button>
 </div>
 `;
-
-
  
 //	CarField.insertAdjacentHTML('afterbegin', CreateCar(3))
 
 // Winners 
+
+
 
 export const countWinners = 0;
 export const winners = `
 <h1 class="winners_text">Winners (${countWinners})</h1>
 <h2>Page #${1}</h2>
 <div class="winnerslist">
+<table>
+<thead>
+	<th class="n">Number</th>
+	<th>Car</th>
+	<th>Name</th>
+	<th>Wins</th>
+	<th>Best time (seconds)</th>
+</thead>
+<tbody>
+
+</tbody>
+</table>
+
 `;
 
 
@@ -174,7 +201,26 @@ export function AnimationCar (car: any, distance: number, animationTime: number)
 	return state;
 }
 
+const models = ['Volkswagen', 'Hyundai', 'Tesla', 'Mazda', 'Ford', 'Kia', 'Audi', 'Mercedes-Bentz', 'Seat', 'Volvo'];
+const names = ['Golf', 'Ionic', 'Model 3', '6', 'Mustang', 'Optima', 'A6', 'GLC', 'Ibiza', 'XC90'];
 
+const getRandomName = () => {
+	const model = models[Math.floor(Math.random()* models.length)];
+	const name = names[Math.floor(Math.random()* names.length)];
+	return `${model} ${name}`;
+}
+
+const getRandomColor = () => {
+	const symbols = '0123456789ABCDEF';
+	let color = '#';
+	for (let i = 0; i < 6; i++) {
+		color += symbols[Math.floor(Math.random()* 16)]
+	}
+	return color
+}
+
+
+export const getRandomCars = (count = 100) => new Array(count).fill(1).map( () => ({ name: getRandomName(), color: getRandomColor()}));
 
 
 
