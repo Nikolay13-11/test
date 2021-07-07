@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+.sidebar {
+    margin: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 250px;
+    background: linear-gradient(180deg, #0099AE 0%, #00BF82 100%);
+    z-index: 100;
+    transform: translateX(0);
+    transition: all 2s ease;
+
+    // display: block;
+    
+}
+
+.remove {
+    // display: none;
+    transform: translateX(-300px);
+    
+}
+
+ul {
+    list-style: none;
+    text-align: center;
+    margin: 80px 0px 0px 29px;
+    
+}
+
+.bar_item {
+    margin-top: 10px;
+    cursor: pointer;
+    color: white;
+    font-size: large;
+}
+
+.bar_item:hover {
+    color: rgb(173, 12, 190);
+}
+
+
+
+
+
+
