@@ -1,6 +1,6 @@
 import { infoCards } from '../app/cards';
 
-export const soundClick = (link:any) => {
+export const soundClick = (link:string | undefined):void => {
   const audio = new Audio(); // Создаём новый элемент Audio
   audio.src = `../${link}`; // Указываем путь к звуку "клика"
   audio.autoplay = true; // Автоматически запускаем
@@ -11,17 +11,18 @@ export const states = {
   numberCardsArray: 0,
 };
 
-export function closeBar() {
+export function closeBar():void {
   const sidebar = document.getElementById('sidebar');
   sidebar?.classList.add('remove');
   (document.getElementById('burgerMenu') as HTMLElement).classList.remove('active');
 }
 
-export const createCardsFront = (index: number) => Object.keys(infoCards[index]).map((el, k) => `
+export const createCardsFront = (index: number):string[] => Object.keys(infoCards[index]).map((el, k) => `
     <div class='card_container' id='card_container'>
         <div class='card' id='card'>
             <div class='card_front' id='cardFront'>
-                <img class='imgMain' id='${infoCards[index][k].word}' src='../${infoCards[index][k].image}' alt=''  data-sound='../${infoCards[index][k].audioSrc}'>
+                <img class='imgMain' id='${infoCards[index][k].word}' src='../${infoCards[index][k].image}'
+                alt=''  data-sound='../${infoCards[index][k].audioSrc}'>
                 <div class='container' id='container'>
                     <p>${infoCards[index][k].word}</p>
                     <img class='arrowCard' src='../icons/arrows.svg' alt=''>
@@ -35,9 +36,10 @@ export const createCardsFront = (index: number) => Object.keys(infoCards[index])
     </div>
 `);
 
-export const createGameCards = (index: number) => Object.keys(infoCards[index]).map((el, k) => `
+export const createGameCards = (index: number): string[] => Object.keys(infoCards[index]).map((el, k) => `
         <div class='card' id='card'>
-                      <img class='imgMainGame' id='${infoCards[index][k].word}' src='../${infoCards[index][k].image}' alt=''>
+                      <img class='imgMainGame' id='${infoCards[index][k].word}'
+                      src='../${infoCards[index][k].image}' alt=''>
         </div>
 `);
 
@@ -59,43 +61,43 @@ function generateCards(id:number) {
   }, 100);
 }
 
-export function t(event:Event) {
+export function t(event:Event):void {
   const id = Number((event.target as HTMLElement).parentElement?.dataset.cards);
   if ((event.target as HTMLElement).parentElement?.classList.contains('Action(setA)')) {
     generateCards(id);
     states.numberCardsArray = id;
     closeBar();
-}
+  }
   if ((event.target as HTMLElement).parentElement?.classList.contains('Action(setB)')) {
     generateCards(id);
     states.numberCardsArray = id;
     closeBar();
-}
+  }
   if ((event.target as HTMLElement).parentElement?.classList.contains('Animal(setA)')) {
     generateCards(id);
     states.numberCardsArray = id;
     closeBar();
-}
+  }
   if ((event.target as HTMLElement).parentElement?.classList.contains('Animal(setB)')) {
     generateCards(id);
     states.numberCardsArray = id;
     closeBar();
-}
+  }
   if ((event.target as HTMLElement).parentElement?.classList.contains('Clothes')) {
     generateCards(id);
     states.numberCardsArray = id;
     closeBar();
-}
+  }
   if ((event.target as HTMLElement).parentElement?.classList.contains('Emotions')) {
     generateCards(id);
     states.numberCardsArray = id;
     closeBar();
-}
+  }
   if ((event.target as HTMLElement).parentElement?.classList.contains('Food')) {
     generateCards(id);
     states.numberCardsArray = id;
     closeBar();
-}
+  }
   if ((event.target as HTMLElement).parentElement?.classList.contains('Ocean')) {
     generateCards(id);
     states.numberCardsArray = id;
@@ -103,51 +105,51 @@ export function t(event:Event) {
   }
 }
 
-export function renderSideBar(event:Event) {
+export function renderSideBar(event:Event):void {
   if ((event.target as HTMLElement).classList.contains('Main')) {
     document.location.replace('#/');
     closeBar();
-}
+  }
   if ((event.target as HTMLElement).classList.contains('Action(setA)')) {
     closeBar();
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
-}
+  }
   if ((event.target as HTMLElement).classList.contains('Action(setB)')) {
     closeBar();
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
-}
+  }
   if ((event.target as HTMLElement).classList.contains('Animal(setA)')) {
     closeBar();
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
-}
+  }
   if ((event.target as HTMLElement).classList.contains('Animal(setB)')) {
     closeBar();
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
-}
+  }
   if ((event.target as HTMLElement).classList.contains('Clothes')) {
     closeBar();
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
-}
+  }
   if ((event.target as HTMLElement).classList.contains('Emotions')) {
     closeBar();
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
-}
+  }
   if ((event.target as HTMLElement).classList.contains('Food')) {
     closeBar();
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
-}
+  }
   if ((event.target as HTMLElement).classList.contains('Ocean')) {
     closeBar();
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
-}
+  }
 }
 
 // header
@@ -165,9 +167,9 @@ export const headerElem = `
 // Main
 
 const nameGroups = ['Action (set A)', 'Action (set B)', 'Animal (set A)',
-    'Animal (set B)', 'Clothes', 'Emotions', 'Food', 'Ocean'];
+  'Animal (set B)', 'Clothes', 'Emotions', 'Food', 'Ocean'];
 
-    // let b = infoCards[0].sort(() => Math.random() - 0.5)
+// let b = infoCards[0].sort(() => Math.random() - 0.5)
 
 export const mainElem = nameGroups.map((type) => `
 <div class='groupCard ${type.replace(/\s/g, '')}' data-cards='${nameGroups.indexOf(type)}'>
@@ -186,8 +188,6 @@ StartBtn.append('Start');
 export const RepeatBtn = document.createElement('div');
 RepeatBtn.className = 'RepeatBtn hidden';
 RepeatBtn.id = 'RepeatBtn';
-
-const tr = '<div class="finishWin"></div>';
 
 export const finishWin = document.createElement('div');
 finishWin.className = 'winGame ';
@@ -232,14 +232,14 @@ const GetWrong = (picture: any) => {
   if (!(localStorage.getItem(`${picture.image.split('/')[1].slice(0, -4)}wrong`))) {
     return 0;
   }
-    return localStorage.getItem(`${picture.image.split('/')[1].slice(0, -4)}wrong`);
+  return localStorage.getItem(`${picture.image.split('/')[1].slice(0, -4)}wrong`);
 };
 
 const GetClick = (picture: any) => {
   if (!(localStorage.getItem(`${picture.image.split('/')[1].slice(0, -4)}click`))) {
     return 0;
   }
-    return localStorage.getItem(`${picture.image.split('/')[1].slice(0, -4)}click`);
+  return localStorage.getItem(`${picture.image.split('/')[1].slice(0, -4)}click`);
 };
 
 const GetPercent = (picture: any) => {
@@ -258,8 +258,8 @@ const GetPercent = (picture: any) => {
   }
 };
 
-export const Row = () => infoCards.forEach((item, index) => {
-const y = item.map((i) => `
+export const Row = ():void => infoCards.forEach((item, index) => {
+  const y = item.map((i) => `
   <tr class='cat${index}'> 
     <th>${i.word}</th>
     <th>${i.translation}</th>
@@ -273,11 +273,10 @@ const y = item.map((i) => `
   RowsTable += y;
 });
 
-export const ClearRowsTable = () => {
+export const ClearRowsTable = ():void => {
   RowsTable = '';
 };
 
-console.log(infoCards[0][0].image.split('/')[1].slice(0, -4));
 // console.log(RowsData.join(''))
 
 // for (let i = 0; i < 6; i++) {
@@ -290,7 +289,7 @@ console.log(infoCards[0][0].image.split('/')[1].slice(0, -4));
 //   console.log(a[id][3].word)
 // })
 
-export const Table = () => `
+export const Table = ():string => `
   ${ScoreButtons}
   <table>
   <thead>

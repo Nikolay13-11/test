@@ -3,13 +3,13 @@ import { listenCategory } from '../components/functions';
 import '../assets/styles/category.scss';
 
 export class Category extends BaseComponent {
-    constructor() {
-        super('div', ['categoryField']);
-        this.element.id = 'categoryField';
-    }
+  constructor() {
+    super('div', ['categoryField']);
+    this.element.id = 'categoryField';
+  }
 
-    render() {
-        listenCategory();
-        return this.element;
-    }
+  render():HTMLElement {
+    listenCategory();
+    return this.element;
+  }
 }

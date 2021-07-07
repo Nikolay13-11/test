@@ -4,14 +4,14 @@ import { navigateSideBar } from '../components/functions';
 import './sidebar.scss';
 
 export class SideBar extends BaseComponent {
-    constructor() {
-        super('aside', ['sidebar', 'remove']);
-        this.element.id = 'sidebar';
-        this.element.innerHTML = SideBarElem;
-    }
+  constructor() {
+    super('aside', ['sidebar', 'remove']);
+    this.element.id = 'sidebar';
+    this.element.innerHTML = SideBarElem;
+  }
 
-    render() {
-        navigateSideBar();
-        return this.element;
-    }
+  render():HTMLElement {
+    navigateSideBar();
+    return this.element;
+  }
 }

@@ -3,12 +3,12 @@ import { headerElem } from '../components/constants';
 import './header.scss';
 
 export class Header extends BaseComponent {
-    constructor() {
-        super('header', ['header']);
-        this.element.innerHTML = headerElem;
-    }
+  constructor() {
+    super('header', ['header']);
+    this.element.innerHTML = headerElem;
+  }
 
-    render() {
-        return this.element;
-    }
+  render():HTMLElement {
+    return this.element;
+  }
 }
