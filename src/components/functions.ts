@@ -10,11 +10,6 @@ if (localStorage.getItem('gameMode') === 'true') {
   setTimeout(() => {
     (document.getElementById('toggleBtn') as HTMLInputElement).checked = true;
   }, 1000);
-} 
-else {
-    setTimeout(() => {
-    (document.getElementById('toggleBtn') as HTMLInputElement).checked = false;
-  }, 1000);
 }
 
 const arr = [0, 1, 2, 3, 4, 5, 6, 7].sort(() => Math.random() - 0.5);
