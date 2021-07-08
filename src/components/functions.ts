@@ -12,6 +12,10 @@ if (localStorage.getItem('gameMode') === 'true') {
   }, 1000);
 }
 
+if (!(localStorage.getItem('gameMode'))) {
+  localStorage.setItem('gameMode', 'false');
+}
+
 const arr = [0, 1, 2, 3, 4, 5, 6, 7].sort(() => Math.random() - 0.5);
 let num = 0;
 
