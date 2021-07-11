@@ -67,6 +67,7 @@ function generateCards(id:number) {
       (document.getElementById('categoryField') as HTMLElement).innerHTML = createCardsFront(id).join('\n');
       document.getElementById('StartBtn')?.classList.add('delete');
       document.getElementById('StartBtn')?.classList.remove('flex');
+      (document.getElementById('categoryField') as HTMLDivElement).insertAdjacentElement('afterbegin', StarsField);
     } else if (localStorage.getItem('gameMode') === 'true') {
       document.getElementById('StartBtn')?.classList.remove('delete');
       document.getElementById('StartBtn')?.classList.add('flex');

@@ -1,7 +1,7 @@
 import { infoCards } from '../app/cards';
 import {
   ClearRowsTable, closeBar, createCardsFront, createGameCards, finishLose,
-  finishWin, renderSideBar, Row, soundClick, StarCorrect, StarWrong, states, t, Table,
+  finishWin, NotTouch, renderSideBar, Row, soundClick, StarCorrect, StarsField, StarWrong, states, t, Table,
 } from './constants';
 
 let state = false;
@@ -25,6 +25,15 @@ export function ClearStarsBlock() {
     (document.getElementById('StarsField') as HTMLElement).innerHTML = '';
   }
   starsBlock = [];
+  num = 0;
+}
+
+function startGame() {
+  document.getElementById('StartBtn')?.classList.add('delete');
+  document.getElementById('StartBtn')?.classList.remove('flex');
+  document.getElementById('RepeatBtn')?.classList.remove('delete');
+  soundClick(infoCards[states.numberCardsArray][arr[num]].audioSrc);
+  state = true;
   num = 0;
 }
 
@@ -69,15 +78,18 @@ export function GameMode():void {
   btnMode?.addEventListener('change', (event:Event) => {
     if (window.location.hash.slice(1) === '/category') {
       if (localStorage.getItem('gameMode') === 'true') {
+        NotTouch();
         (document.getElementById('categoryField') as HTMLElement)
           .innerHTML = createCardsFront(states.numberCardsArray).join('\n');
         document.getElementById('StartBtn')?.classList.add('delete');
         document.getElementById('StartBtn')?.classList.remove('flex');
+        (document.getElementById('categoryField') as HTMLDivElement).insertAdjacentElement('afterbegin', StarsField);
       } else {
         (document.getElementById('categoryField') as HTMLElement)
           .innerHTML = createGameCards(states.numberCardsArray).join('\n');
         document.getElementById('StartBtn')?.classList.remove('delete');
         document.getElementById('StartBtn')?.classList.add('flex');
+        (document.getElementById('categoryField') as HTMLDivElement).insertAdjacentElement('afterbegin', StarsField);
       }
     }
     if (!(event?.target as HTMLInputElement).checked) {
@@ -93,12 +105,7 @@ export const listenMain = ():void => {
     console.log(event?.target);
     t(event);
     if ((event.target as HTMLElement).classList.contains('StartBtn')) {
-      document.getElementById('StartBtn')?.classList.add('delete');
-      document.getElementById('StartBtn')?.classList.remove('flex');
-      document.getElementById('RepeatBtn')?.classList.remove('delete');
-      soundClick(infoCards[states.numberCardsArray][arr[num]].audioSrc);
-      state = true;
-      num = 0;
+      startGame();
     }
     if ((event.target as HTMLElement).classList.contains('RepeatBtn')) {
       soundClick(infoCards[states.numberCardsArray][arr[num]].audioSrc);
