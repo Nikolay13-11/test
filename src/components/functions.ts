@@ -1,7 +1,7 @@
 import { infoCards } from '../app/cards';
 import {
   ClearRowsTable, closeBar, createCardsFront, createGameCards, finishLose,
-  finishWin, NotTouch, renderSideBar, Row, soundClick, StarCorrect, StarsField, StarWrong, states, t, Table,
+  finishWin, NotTouch, RemoveButtons, renderSideBar, Row, soundClick, StarCorrect, StarsField, StarWrong, states, t, Table,
 } from './constants';
 
 let state = false;
@@ -84,6 +84,9 @@ export function GameMode():void {
         document.getElementById('StartBtn')?.classList.add('delete');
         document.getElementById('StartBtn')?.classList.remove('flex');
         (document.getElementById('categoryField') as HTMLDivElement).insertAdjacentElement('afterbegin', StarsField);
+        ClearStarsBlock();
+        RemoveButtons();
+
       } else {
         (document.getElementById('categoryField') as HTMLElement)
           .innerHTML = createGameCards(states.numberCardsArray).join('\n');
