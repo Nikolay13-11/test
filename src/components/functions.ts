@@ -1,10 +1,11 @@
 import { infoCards } from '../app/cards';
 import {
   ClearRowsTable, closeBar, createCardsFront, createGameCards, finishLose,
-  finishWin, renderSideBar, Row, soundClick, states, t, Table,
+  finishWin, renderSideBar, Row, soundClick, StarCorrect, StarWrong, states, t, Table,
 } from './constants';
 
 let state = false;
+let starsBlock:string[] = [];
 
 if (localStorage.getItem('gameMode') === 'true') {
   setTimeout(() => {
@@ -15,14 +16,24 @@ if (localStorage.getItem('gameMode') === 'true') {
 const arr = [0, 1, 2, 3, 4, 5, 6, 7].sort(() => Math.random() - 0.5);
 let num = 0;
 
+export function ClearStarsBlock() {
+  if (window.location.hash.slice(1) === '/category') {
+    (document.getElementById('StarsField') as HTMLElement).innerHTML = '';
+  }
+  starsBlock = [];
+  num = 0;
+}
+
 let countError = 0;
 
 function finishGame() {
   if (num > 7) {
     if (countError === 0) {
+      ClearStarsBlock();
       document.querySelectorAll('.card')?.forEach((el) => el.classList.add('delete'));
       document.getElementById('StartBtn')?.classList.add('delete');
       document.getElementById('RepeatBtn')?.classList.add('delete');
+      document.getElementById('StartBtn')?.classList.remove('flex');
       // document.getElementById('winGame')?.classList.remove('delete');
       (document.getElementById('categoryField') as HTMLElement).appendChild(finishWin);
       soundClick('../audio/success.mp3');
@@ -33,8 +44,10 @@ function finishGame() {
       }, 2000);
     } else {
       document.querySelectorAll('.card')?.forEach((el) => el.classList.add('delete'));
+      ClearStarsBlock();
       document.getElementById('StartBtn')?.classList.add('delete');
       document.getElementById('RepeatBtn')?.classList.add('delete');
+      document.getElementById('StartBtn')?.classList.remove('flex');
       // document.getElementById('loseGame')?.classList.remove('delete')
       (document.getElementById('categoryField') as HTMLElement).appendChild(finishLose);
       soundClick('../audio/failure.mp3');
@@ -54,11 +67,13 @@ export function GameMode():void {
       if (localStorage.getItem('gameMode') === 'true') {
         (document.getElementById('categoryField') as HTMLElement)
           .innerHTML = createCardsFront(states.numberCardsArray).join('\n');
-        document.getElementById('StartBtn')?.classList.add('hidden');
+        document.getElementById('StartBtn')?.classList.add('delete');
+        document.getElementById('StartBtn')?.classList.remove('flex');
       } else {
         (document.getElementById('categoryField') as HTMLElement)
           .innerHTML = createGameCards(states.numberCardsArray).join('\n');
-        document.getElementById('StartBtn')?.classList.remove('hidden');
+        document.getElementById('StartBtn')?.classList.remove('delete');
+        document.getElementById('StartBtn')?.classList.add('flex');
       }
     }
     if (!(event?.target as HTMLInputElement).checked) {
@@ -71,10 +86,12 @@ export function GameMode():void {
 
 export const listenMain = ():void => {
   document.body.addEventListener('click', (event:Event) => {
+    console.log(event?.target);
     t(event);
     if ((event.target as HTMLElement).classList.contains('StartBtn')) {
-      document.getElementById('StartBtn')?.classList.add('hidden');
-      document.getElementById('RepeatBtn')?.classList.remove('hidden');
+      document.getElementById('StartBtn')?.classList.add('delete');
+      document.getElementById('StartBtn')?.classList.remove('flex');
+      document.getElementById('RepeatBtn')?.classList.remove('delete');
       soundClick(infoCards[states.numberCardsArray][arr[num]].audioSrc);
       state = true;
       num = 0;
@@ -90,6 +107,8 @@ export const listenMain = ():void => {
       const curSound = infoCards[states.numberCardsArray][arr[num]].audioSrc.slice(6, -4);
       if (currPic === curSound) {
         soundClick('../audio/correct.mp3');
+        starsBlock.push(StarCorrect);
+        (document.getElementById('StarsField') as HTMLElement).innerHTML = starsBlock.join('');
         (event.target as HTMLElement).classList.add('target');
         num++;
         if (!(localStorage.getItem(`${currPic}correct`))) {
@@ -105,6 +124,8 @@ export const listenMain = ():void => {
         finishGame();
       } else if (currPic !== curSound) {
         soundClick('../audio/error.mp3');
+        starsBlock.push(StarWrong);
+        (document.getElementById('StarsField') as HTMLElement).innerHTML = starsBlock.join('');
         countError++;
         if (!(localStorage.getItem(`${currPic}wrong`))) {
           localStorage.setItem(`${currPic}wrong`, '1');
@@ -153,6 +174,7 @@ export function navigateSideBar():void {
   const sideBar = document.querySelector('.sidebar');
   sideBar?.addEventListener('click', (event:Event) => {
     renderSideBar(event);
+    ClearStarsBlock();
     if ((event.target as HTMLElement).classList.contains('Statistic')) {
       document.location.replace('#/score');
       ClearRowsTable();

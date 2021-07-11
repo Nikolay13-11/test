@@ -11,11 +11,26 @@ export const states = {
   numberCardsArray: 0,
 };
 
+export function RemoveButtons() {
+  document.getElementById('StartBtn')?.classList.add('delete');
+  document.getElementById('StartBtn')?.classList.remove('flex');
+  document.getElementById('RepeatBtn')?.classList.add('delete');
+}
+
 export function closeBar():void {
   const sidebar = document.getElementById('sidebar');
   sidebar?.classList.add('remove');
   (document.getElementById('burgerMenu') as HTMLElement).classList.remove('active');
 }
+
+export function NotTouch() {
+  const cardsCat = document.querySelectorAll('card');
+  cardsCat.forEach((el) => el.classList.add('not_touch'));
+}
+
+export const StarsField = document.createElement('div');
+StarsField.className = 'StarsField';
+StarsField.id = 'StarsField';
 
 export const createCardsFront = (index: number):string[] => Object.keys(infoCards[index]).map((el, k) => `
     <div class='card_container' id='card_container'>
@@ -43,20 +58,20 @@ export const createGameCards = (index: number): string[] => Object.keys(infoCard
         </div>
 `);
 
-const StarsBlock = document.createElement('div');
-StarsBlock.className = 'stars';
-StarsBlock.id = 'stars';
-
 function generateCards(id:number) {
-  document.getElementById('RepeatBtn')?.classList.add('hidden');
+  document.getElementById('RepeatBtn')?.classList.add('delete');
   document.location.replace('#/category');
+  NotTouch();
   setTimeout(() => {
     if (localStorage.getItem('gameMode') === 'false') {
       (document.getElementById('categoryField') as HTMLElement).innerHTML = createCardsFront(id).join('\n');
-      document.getElementById('StartBtn')?.classList.add('hidden');
+      document.getElementById('StartBtn')?.classList.add('delete');
+      document.getElementById('StartBtn')?.classList.remove('flex');
     } else if (localStorage.getItem('gameMode') === 'true') {
-      document.getElementById('StartBtn')?.classList.remove('hidden');
+      document.getElementById('StartBtn')?.classList.remove('delete');
+      document.getElementById('StartBtn')?.classList.add('flex');
       (document.getElementById('categoryField') as HTMLElement).innerHTML = createGameCards(id).join('\n');
+      (document.getElementById('categoryField') as HTMLDivElement).insertAdjacentElement('afterbegin', StarsField);
     }
   }, 100);
 }
@@ -150,6 +165,8 @@ export function renderSideBar(event:Event):void {
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
   }
+  NotTouch();
+  RemoveButtons();
 }
 
 // header
@@ -181,12 +198,12 @@ export const mainElem = nameGroups.map((type) => `
 // Category
 
 export const StartBtn = document.createElement('div');
-StartBtn.className = 'StartBtn hidden';
+StartBtn.className = 'StartBtn delete';
 StartBtn.id = 'StartBtn';
 StartBtn.append('Start');
 
 export const RepeatBtn = document.createElement('div');
-RepeatBtn.className = 'RepeatBtn hidden';
+RepeatBtn.className = 'RepeatBtn delete';
 RepeatBtn.id = 'RepeatBtn';
 
 export const finishWin = document.createElement('div');
@@ -195,6 +212,11 @@ finishWin.id = 'winGame';
 export const finishLose = document.createElement('div');
 finishLose.className = 'loseGame ';
 finishLose.id = 'loseGame';
+
+// export const Star = document.createElement('div');
+// Star.className = "star";
+export const StarCorrect = "<div class='star_correct' id='star'></div>";
+export const StarWrong = "<div class='star_wrong' id='star'></div>";
 
 // Sidebar
 

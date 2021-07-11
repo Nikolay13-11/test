@@ -1,5 +1,6 @@
 import { BaseComponent } from '../components/base-component';
 import { listenCategory } from '../components/functions';
+import { StarsField } from '../components/constants';
 import '../assets/styles/category.scss';
 
 export class Category extends BaseComponent {
