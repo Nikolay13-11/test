@@ -1,7 +1,7 @@
 import { infoCards } from '../app/cards';
 import {
   ClearRowsTable, closeBar, createCardsFront, createGameCards, finishLose,
-  finishWin, NotTouch, RemoveButtons, renderSideBar, Row, soundClick, StarCorrect, StarsField, StarWrong, states, t, Table,
+  finishWin, Touch, RemoveButtons, renderSideBar, Row, soundClick, StarCorrect, StarsField, StarWrong, states, t, Table,
 } from './constants';
 
 let state = false;
@@ -35,6 +35,7 @@ function startGame() {
   soundClick(infoCards[states.numberCardsArray][arr[num]].audioSrc);
   state = true;
   num = 0;
+  Touch();
 }
 
 let countError = 0;
@@ -78,7 +79,6 @@ export function GameMode():void {
   btnMode?.addEventListener('change', (event:Event) => {
     if (window.location.hash.slice(1) === '/category') {
       if (localStorage.getItem('gameMode') === 'true') {
-        NotTouch();
         (document.getElementById('categoryField') as HTMLElement)
           .innerHTML = createCardsFront(states.numberCardsArray).join('\n');
         document.getElementById('StartBtn')?.classList.add('delete');
@@ -104,7 +104,6 @@ export function GameMode():void {
 
 export const listenMain = ():void => {
   document.body.addEventListener('click', (event:Event) => {
-    console.log(event?.target);
     t(event);
     if ((event.target as HTMLElement).classList.contains('StartBtn')) {
       startGame();

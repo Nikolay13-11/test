@@ -23,9 +23,9 @@ export function closeBar():void {
   (document.getElementById('burgerMenu') as HTMLElement).classList.remove('active');
 }
 
-export function NotTouch() {
-  const cardsCat = document.querySelectorAll('card');
-  cardsCat.forEach((el) => el.classList.add('not_touch'));
+export function Touch() {
+  const cardsCat = document.querySelectorAll('.imgMainGame');
+  cardsCat.forEach((el) => el.classList.remove('not_touch'));
 }
 
 export const StarsField = document.createElement('div');
@@ -53,7 +53,7 @@ export const createCardsFront = (index: number):string[] => Object.keys(infoCard
 
 export const createGameCards = (index: number): string[] => Object.keys(infoCards[index]).map((el, k) => `
         <div class='card' id='card'>
-                      <img class='imgMainGame' id='${infoCards[index][k].word}'
+                      <img class='imgMainGame not_touch' id='${infoCards[index][k].word}'
                       src='../${infoCards[index][k].image}' alt=''>
         </div>
 `);
@@ -61,7 +61,6 @@ export const createGameCards = (index: number): string[] => Object.keys(infoCard
 function generateCards(id:number) {
   document.getElementById('RepeatBtn')?.classList.add('delete');
   document.location.replace('#/category');
-  NotTouch();
   setTimeout(() => {
     if (localStorage.getItem('gameMode') === 'false') {
       (document.getElementById('categoryField') as HTMLElement).innerHTML = createCardsFront(id).join('\n');
@@ -166,7 +165,6 @@ export function renderSideBar(event:Event):void {
     generateCards(Number((event.target as HTMLElement).dataset.num));
     states.numberCardsArray = Number((event.target as HTMLElement).dataset.num);
   }
-  NotTouch();
   RemoveButtons();
 }
 
