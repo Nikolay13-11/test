@@ -86,7 +86,6 @@ export function GameMode():void {
         (document.getElementById('categoryField') as HTMLDivElement).insertAdjacentElement('afterbegin', StarsField);
         ClearStarsBlock();
         RemoveButtons();
-
       } else {
         (document.getElementById('categoryField') as HTMLElement)
           .innerHTML = createGameCards(states.numberCardsArray).join('\n');
