@@ -1,0 +1,227 @@
+.headerAdmin {
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    background-color: #00BF82;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+
+}
+
+.headerAdmin > button {
+    background: none;
+    border: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+.headerAdmin > button:hover {
+    color: rgb(173, 12, 190);
+}
+
+.catBtn {
+    margin-left: 5%;
+}
+.wordsBtn {
+    margin-left: 15%;
+}
+.logOutBtn {
+    margin-left: 50%;
+}
+
+.adminPage {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+// Category of Words
+
+.admin_cards_container, .create_card_container {
+    width: 305px;
+    height: 195px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.admin_cards_container * {
+    margin-top: 30px;
+}
+
+.admin_card_text, .create_text {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    color: #000000;
+}
+.admin_card_text {
+    margin-bottom: 0px;
+    margin-left: 120px;    
+}
+
+
+.delete_btn {
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    background: none;
+    border: none;
+    font-size: 50px;
+    transform: rotate(45deg);
+    opacity: 0.6;
+    color: #000000;
+}
+
+.delete_card {
+    margin-top: 0;
+}
+
+.count_of_words {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 26px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+}
+
+.buttons_admin_card {
+    display: flex;
+    margin-top: 15px;
+}
+
+.update_card_btn, .add_word_btn {
+    width: 130px;
+    height: 30px;
+    background: none;
+    border: 2px solid #00BF82;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 26px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.update_card_btn {
+
+}
+
+.add_word_btn {
+
+}
+
+.top_section {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0;
+}
+
+// Create new Category
+
+.create_card_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    order: 500;
+    }
+.create_text {
+    margin-top: 28px;
+}
+
+.plus {
+    width: 85px;
+    height: 85px;
+    background: none;
+    border-radius: 50%;
+    opacity: 0.6;
+    border: 3px solid #000000;
+    color: #000000;
+    font-size: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+// Word
+
+.word_container {
+    width: 361px;
+    height: 458px;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.change_word {
+    width: 250px;
+    height: 60px;
+    border: 2px solid #00BF82;
+    border-radius: 5px;
+    background: none;
+    margin-left: 50px;
+    margin-top: 10px;
+}
+
+.word_img {
+    width: 250px;
+    height: 170px;
+    border: 1px solid black;
+    margin-left: 50px;
+}
+.word_text {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    color: #000000;
+    margin: 8px 0 8px 54px;
+}
+
+.card_descript {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 26px;
+    color: #000000;
+}
+
+.delete_word {
+    margin-left: 300px;
+}
+
+.add_word_t {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 42px;
+    text-align: center;
+    color: #000000;
+}
+
+.add_word_plus {
+    width: 150px;
+    height: 150px;
+    margin: 100px auto;
+}
+
+.active_cat {
+    border: 2px solid rgb(173, 12, 190);
+}

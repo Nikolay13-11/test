@@ -1,7 +1,8 @@
 import { infoCards } from '../app/cards';
 import {
   ClearRowsTable, closeBar, createCardsFront, createGameCards, finishLose,
-  finishWin, Touch, RemoveButtons, renderSideBar, Row, soundClick, StarCorrect, StarsField, StarWrong, states, t, Table,
+  finishWin, Touch, RemoveButtons, renderSideBar, Row, soundClick, StarCorrect, StarsField, StarWrong,
+  states, renderCards, Table, headerAdmin, adminePageGroup, adminPageWords,
 } from './constants';
 
 let state = false;
@@ -17,56 +18,62 @@ if (!(localStorage.getItem('gameMode'))) {
   localStorage.setItem('gameMode', 'false');
 }
 
-const arr = [0, 1, 2, 3, 4, 5, 6, 7].sort(() => Math.random() - 0.5);
-let num = 0;
+const RandomeSongNumber = [0, 1, 2, 3, 4, 5, 6, 7].sort(() => Math.random() - 0.5);
+let numberOfSong = 0;
 
-export function ClearStarsBlock() {
+export function ClearStarsBlock():void {
   if (window.location.hash.slice(1) === '/category') {
     (document.getElementById('StarsField') as HTMLElement).innerHTML = '';
   }
   starsBlock = [];
-  num = 0;
+  numberOfSong = 0;
 }
 
-function startGame() {
+function startGame():void {
   document.getElementById('StartBtn')?.classList.add('delete');
   document.getElementById('StartBtn')?.classList.remove('flex');
   document.getElementById('RepeatBtn')?.classList.remove('delete');
-  soundClick(infoCards[states.numberCardsArray][arr[num]].audioSrc);
+  soundClick(infoCards[states.numberCardsArray][RandomeSongNumber[numberOfSong]].audioSrc);
   state = true;
-  num = 0;
+  numberOfSong = 0;
   Touch();
 }
 
-let countError = 0;
+function ClosePop() {
+  document.getElementById('popUp')?.classList.add('delete');
+  document.body.classList.remove('notScroll');
+  document.getElementById('cover')?.classList.add('delete');
+}
 
-function finishGame() {
-  if (num > 7) {
+let countError = 0;
+const allCards = 7;
+
+function deleteButtonsAndClearStars():void {
+  ClearStarsBlock();
+  document.getElementById('StartBtn')?.classList.add('delete');
+  document.getElementById('RepeatBtn')?.classList.add('delete');
+  document.getElementById('StartBtn')?.classList.remove('flex');
+}
+
+function finishGame():void {
+  if (numberOfSong > allCards) {
     if (countError === 0) {
-      ClearStarsBlock();
       document.querySelectorAll('.card')?.forEach((el) => el.classList.add('delete'));
-      document.getElementById('StartBtn')?.classList.add('delete');
-      document.getElementById('RepeatBtn')?.classList.add('delete');
-      document.getElementById('StartBtn')?.classList.remove('flex');
-      // document.getElementById('winGame')?.classList.remove('delete');
+      deleteButtonsAndClearStars();
       (document.getElementById('categoryField') as HTMLElement).appendChild(finishWin);
       soundClick('../audio/success.mp3');
       setTimeout(() => {
-        num = 0;
+        numberOfSong = 0;
         document.location.replace('#/');
         (document.getElementById('categoryField') as HTMLElement).removeChild(finishWin);
       }, 2000);
     } else {
       document.querySelectorAll('.card')?.forEach((el) => el.classList.add('delete'));
-      ClearStarsBlock();
-      document.getElementById('StartBtn')?.classList.add('delete');
-      document.getElementById('RepeatBtn')?.classList.add('delete');
-      document.getElementById('StartBtn')?.classList.remove('flex');
-      // document.getElementById('loseGame')?.classList.remove('delete')
+      deleteButtonsAndClearStars();
       (document.getElementById('categoryField') as HTMLElement).appendChild(finishLose);
       soundClick('../audio/failure.mp3');
       setTimeout(() => {
-        num = 0;
+        numberOfSong = 0;
         document.location.replace('#/');
         (document.getElementById('categoryField') as HTMLElement).removeChild(finishLose);
       }, 2000);
@@ -104,25 +111,24 @@ export function GameMode():void {
 
 export const listenMain = ():void => {
   document.body.addEventListener('click', (event:Event) => {
-    t(event);
+    renderCards(event);
     if ((event.target as HTMLElement).classList.contains('StartBtn')) {
       startGame();
     }
     if ((event.target as HTMLElement).classList.contains('RepeatBtn')) {
-      soundClick(infoCards[states.numberCardsArray][arr[num]].audioSrc);
-      // finishGame();
+      soundClick(infoCards[states.numberCardsArray][RandomeSongNumber[numberOfSong]].audioSrc);
     }
     if ((event.target as HTMLElement).classList.contains('imgMainGame')
         && localStorage.getItem('gameMode') === 'true'
         && state === true) {
       const currPic = (event.target as HTMLElement).getAttribute('src')?.split('/')[2].slice(0, -4);
-      const curSound = infoCards[states.numberCardsArray][arr[num]].audioSrc.slice(6, -4);
+      const curSound = infoCards[states.numberCardsArray][RandomeSongNumber[numberOfSong]].audioSrc.slice(6, -4);
       if (currPic === curSound) {
         soundClick('../audio/correct.mp3');
         starsBlock.push(StarCorrect);
         (document.getElementById('StarsField') as HTMLElement).innerHTML = starsBlock.join('');
         (event.target as HTMLElement).classList.add('target');
-        num++;
+        numberOfSong++;
         if (!(localStorage.getItem(`${currPic}correct`))) {
           localStorage.setItem(`${currPic}correct`, '1');
         } else {
@@ -131,7 +137,7 @@ export const listenMain = ():void => {
           localStorage.setItem(`${currPic}correct`, `${String(cur)}`);
         }
         setTimeout(() => {
-          soundClick(infoCards[states.numberCardsArray][arr[num]].audioSrc);
+          soundClick(infoCards[states.numberCardsArray][RandomeSongNumber[numberOfSong]].audioSrc);
         }, 500);
         finishGame();
       } else if (currPic !== curSound) {
@@ -156,11 +162,20 @@ export const listenMain = ():void => {
       sidebar?.classList.toggle('remove');
       (document.getElementById('burgerMenu') as HTMLElement).classList.toggle('active');
     }
+    if ((event.target as HTMLElement).classList.contains('cancelBtn')
+        || (event.target as HTMLElement).classList.contains('cover')) {
+      ClosePop();
+    }
+    if ((event.target as HTMLElement).classList.contains('logBtn')) {
+      document.location.replace('#/admin');
+      ClosePop();
+      (document.getElementById('header') as HTMLElement).appendChild(headerAdmin);
+    }
   });
 };
 
 export const listenCategory = ():void => {
-  document.body.addEventListener('click', (event:Event) => {
+  document.body.addEventListener('click', (event:Event):void => {
     if ((event.target as HTMLElement).parentElement?.parentElement?.classList.contains('card')) {
       soundClick((event.target as HTMLElement).dataset.sound);
       if (!(localStorage.getItem(`${(event.target as HTMLElement).id}click`))) {
@@ -172,7 +187,7 @@ export const listenCategory = ():void => {
       }
     }
   });
-  document.body.addEventListener('click', (event:Event) => {
+  document.body.addEventListener('click', (event:Event):void => {
     if ((event.target as HTMLElement).classList.contains('arrowCard')) {
       (event.target as HTMLElement).parentElement?.parentElement?.parentElement?.classList.add('flip');
       (event.target as HTMLElement).addEventListener('mouseleave', () => {
@@ -196,6 +211,12 @@ export function navigateSideBar():void {
         (document.getElementById('table') as HTMLElement).innerHTML = Table();
       }, 500);
     }
+    if ((event.target as HTMLElement).classList.contains('loginBtn')) {
+      closeBar();
+      document.getElementById('popUp')?.classList.remove('delete');
+      document.body.classList.add('notScroll');
+      document.getElementById('cover')?.classList.remove('delete');
+    }
   });
 }
 
@@ -216,3 +237,37 @@ export const listenScore = ():void => {
     }
   });
 };
+
+// Admin
+
+export const listenAdmin = ():void => {
+  const adminPCol = document.getElementsByClassName('adminPage');
+  document.body.addEventListener('click', (event:Event) => {
+    if ((event.target as HTMLElement).classList.contains('catBtn')) {
+      adminPCol[0].innerHTML = adminePageGroup;
+    }
+    if ((event.target as HTMLElement).classList.contains('wordsBtn')) {
+      adminPCol[0].innerHTML = adminPageWords;
+    }
+    if ((event.target as HTMLElement).classList.contains('logOutBtn')) {
+      document.location.replace('/');
+    }
+    if ((event.target as HTMLElement).classList.contains('add_word_btn')) {
+      (event.target as HTMLElement).parentElement?.parentElement?.classList.add('active_cat');
+    }
+  });
+};
+
+// const a = GetWords();
+
+// a.then((item )=> console.log(item));
+
+// setTimeout(() => {
+//   console.log(arr[0])
+//   arr.forEach(i => {
+//     console.log(typeof i)
+//     Object.keys(i[0]).forEach(g => {
+//       // console.log(g)
+//     })
+//   })
+// }, 1000);

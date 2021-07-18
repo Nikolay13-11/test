@@ -1,5 +1,4 @@
 import { Component } from './app.model';
-import '../assets/styles/appStyle.scss';
 import { Header } from '../core/header';
 import { Main } from '../pages/main';
 import { Category } from '../pages/category';
@@ -7,18 +6,11 @@ import { Score } from '../pages/score';
 import { SideBar } from '../core/sidebar';
 import { GameMode } from '../components/functions';
 import { RepeatBtn, StartBtn } from '../components/constants';
+import { Admin } from '../pages/admin';
+import '../assets/styles/appStyle.scss';
 
 function generateStartPage():void {
   const page = document.location.replace('#/');
-  // if (window.location.hash === '#/') {
-  //     page = this.aplication.appendChild(this.main.element)
-  // }
-  // if (window.location.hash === '#/category') {
-  //     page =  this.aplication.appendChild(this.category.element)
-  // }
-  // if (window.location.hash === '#/score') {
-  //     page =  this.aplication.appendChild(this.score.element)
-  // }
   return page;
 }
 
@@ -35,6 +27,8 @@ export class App implements Component {
 
   private readonly bar = new SideBar();
 
+  private readonly admin = new Admin();
+
   constructor(private readonly rootElement: HTMLElement) {
     this.aplication = document.createElement('div');
     this.aplication.id = 'aplication';
@@ -49,14 +43,22 @@ export class App implements Component {
         this.aplication.appendChild(this.main.element);
         this.category.element.remove();
         this.score.element.remove();
+        this.admin.element.remove();
       } else if (window.location.hash.slice(1) === '/category') {
         this.aplication.appendChild(this.category.element);
         this.main.element.remove();
         this.score.element.remove();
+        this.admin.element.remove();
       } else if (window.location.hash.slice(1) === '/score') {
         this.aplication.appendChild(this.score.element);
         this.main.element.remove();
         this.category.element.remove();
+        this.admin.element.remove();
+      } else if (window.location.hash.slice(1) === '/admin') {
+        this.aplication.appendChild(this.admin.element);
+        this.main.element.remove();
+        this.category.element.remove();
+        this.score.element.remove();
       }
     });
   }
@@ -73,6 +75,7 @@ export class App implements Component {
     this.getHash();
     generateStartPage();
     GameMode();
+    this.admin.render();
     return this.aplication;
   }
 }
